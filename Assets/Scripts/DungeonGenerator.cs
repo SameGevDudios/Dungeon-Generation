@@ -4,6 +4,7 @@ using UnityEngine;
 public class DungeonGenerator : MonoBehaviour
 {
     [SerializeField] private int _dungeonSize, _tileScale;
+    [SerializeField] private int _seed;
     private bool[,] _tileArray;
 
     // This vector represents not a world position of a new tile,
@@ -15,20 +16,26 @@ public class DungeonGenerator : MonoBehaviour
     private Stack<GameObject> _tileQueue = new Stack<GameObject>();
     private void Start()
     {
+        Random.seed = _seed;
         InitializeArray();
-        SpawnCenterTile();
+        SetStartPosition();
+        SpawnRandomTile(Vector3.zero);
+        ReserveSouthTile();
         SpawnNextTile();
     }
     private void InitializeArray()
     {
         _tileArray = new bool[_dungeonSize, _dungeonSize];
     }
-    private void SpawnCenterTile()
+    private void SetStartPosition()
     {
+        // Set position of a first tile in the middle of a grid
         _tileGridPosition = new Vector3(_dungeonSize / 2, transform.position.y, _dungeonSize / 2);
-        GameObject centerTile = Instantiate(_tile[0]);
-        PlaceTile(centerTile, Quaternion.identity);
-        _tileQueue.Push(centerTile);
+    }
+    private void ReserveSouthTile()
+    {
+        // Reserve a tile south from center for an entrance or elevator
+        _tileArray[(int)_tileGridPosition.x, (int)_tileGridPosition.z - 1] = true;
     }
     private void SpawnNextTile()
     {
@@ -57,10 +64,7 @@ public class DungeonGenerator : MonoBehaviour
                     // Calculate rotation of a new tile
                     Vector3 spawnEuler = Vector3.up * (spawn - 1) * -90 + previousTile.transform.localEulerAngles;
                     // Randomly choose a new tile
-                    int index = Random.Range(0, _tile.Length);
-                    GameObject newTile = Instantiate(_tile[index]);
-                    PlaceTile(newTile, Quaternion.Euler(spawnEuler));
-                    _tileQueue.Push(newTile);
+                    SpawnRandomTile(spawnEuler);
                 }
             }
             else
@@ -71,12 +75,17 @@ public class DungeonGenerator : MonoBehaviour
                 if (previousTile.GetComponent<Tile>().SpawnsAvalable == 0)
                 {
                     _tileQueue.Pop();
-                    print($"Queue has {_tileQueue.Count} elements");
-                    
                 }
             }
             SpawnNextTile();
         }
+    }
+    private void SpawnRandomTile(Vector3 spawnEuler)
+    {
+        int index = Random.Range(0, _tile.Length);
+        GameObject newTile = Instantiate(_tile[index]);
+        PlaceTile(newTile, Quaternion.Euler(spawnEuler));
+        _tileQueue.Push(newTile);
     }
     private void PlaceTile(GameObject tile, Quaternion rotation)
     {
