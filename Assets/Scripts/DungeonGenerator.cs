@@ -4,86 +4,78 @@ using UnityEngine;
 public class DungeonGenerator : MonoBehaviour
 {
     [SerializeField] private int _dungeonSize, _tileScale;
-    private int _previousSpawn = 0;
     private bool[,] _tileArray;
+    private Vector3 _tilePosition;
     [SerializeField] private GameObject[] _tile;
     [SerializeField] private GameObject _endingTile, _wall;
-    private Stack<Tile> _tileQueue = new Stack<Tile>();
-
-    int spawnCount = 30, _currentX, _currentY;
-    [Header("Grid Visualization")]
-    [SerializeField] private GameObject[] _row0, _row1, _row2;
+    private Stack<GameObject> _tileQueue = new Stack<GameObject>();
     private void Start()
     {
-        InitArray();
+        InitializeArray();
         SpawnCenter();
         SpawnNext();
     }
-    private void InitArray()
+    private void InitializeArray()
     {
         _tileArray = new bool[_dungeonSize, _dungeonSize];
     }
     private void SpawnCenter()
     {
-        _currentX = _dungeonSize / 2;
-        _currentY = _currentX;
-        Tile centerTile = Instantiate(_tile[0]).GetComponent<Tile>();
+        _tilePosition = new Vector3(_dungeonSize / 2, transform.position.y, _dungeonSize / 2);
+        GameObject centerTile = Instantiate(_tile[0]);
         PlaceTile(centerTile, Quaternion.identity);
         _tileQueue.Push(centerTile);
     }
     private void SpawnNext()
     {
-        if(spawnCount > 0)
+        if (_tileQueue.Count > 0)
         {
-            if (_tileQueue.Count > 0)
+            GameObject previousTile = _tileQueue.Peek();
+            int spawn = previousTile.GetComponent<Tile>().GetNextSpawn();
+            // Calculate grid positon
+            float f = Mathf.PI * spawn / 2 - Mathf.Deg2Rad * previousTile.transform.eulerAngles.y;
+            _tilePosition.x += (int)Mathf.Cos(f);
+            _tilePosition.z += (int)Mathf.Sin(f);
+            // Check if a new tile would be inside of the grid
+            bool inRange = _tilePosition.x > -1 && _tilePosition.x < _dungeonSize
+                && _tilePosition.z > -1 && _tilePosition.z < _dungeonSize;
+            if (spawn != -1 && inRange)
             {
-                Tile previousTile = _tileQueue.Peek();
-                int spawn = previousTile.GetNextSpawn();
-                // calculate grid positon
-                float f = Mathf.PI * spawn / 2 - Mathf.Deg2Rad * previousTile.transform.eulerAngles.y;
-                _currentX += (int)Mathf.Cos(f);
-                _currentY += (int)Mathf.Sin(f);
-                bool inRange = _currentX > -1 && _currentX < _dungeonSize && _currentY > -1 && _currentY < _dungeonSize;
-                if (spawn >= 0 && inRange)
+                // Randomly choose other tile if one is already used
+                if (_tileArray[(int)_tilePosition.x, (int)_tilePosition.z])
                 {
-                    if (_tileArray[_currentX, _currentY])
-                    {
-                        SpawnNext();
-                        return;
-                    }
-                    // calculate rotation of a new tile
-                    Vector3 spawnEuler = Vector3.up * (spawn - 1) * -90 + previousTile.transform.localEulerAngles;
-                    // randomly choose a new tile
-                    int index = Random.Range(0, _tile.Length);
-                    Tile newTile = Instantiate(_tile[index]).GetComponent<Tile>();
-                    PlaceTile(newTile, Quaternion.Euler(spawnEuler));
-                    _tileQueue.Push(newTile);
-                    _previousSpawn = spawn;
+                    SpawnNext();
+                    return;
                 }
-                else
-                {
-                    // Place a wall
-
-                    // Remove tile from queue
-                    _tileQueue.Pop();
-                }
-                SpawnNext();
-                spawnCount--;
+                // Calculate rotation of a new tile
+                Vector3 spawnEuler = Vector3.up * (spawn - 1) * -90 + previousTile.transform.localEulerAngles;
+                // Randomly choose a new tile
+                int index = Random.Range(0, _tile.Length);
+                GameObject newTile = Instantiate(_tile[index]);
+                PlaceTile(newTile, Quaternion.Euler(spawnEuler));
+                _tileQueue.Push(newTile);
             }
-        }
+            else
+            {
+                // Place a wall
 
+                // Remove tile from queue
+                _tileQueue.Pop();
+            }
+            SpawnNext();
+        }
     }
-    private void PlaceTile(Tile tile, Quaternion rotation)
+    private void PlaceTile(GameObject tile, Quaternion rotation)
     {
-        tile.transform.position = (Vector3.right * _currentX + Vector3.forward * _currentY) * _tileScale;
+        tile.transform.position = _tilePosition * _tileScale;
         tile.transform.rotation = rotation;
-        _tileArray[_currentX, _currentY] = true;
+        _tileArray[(int)_tilePosition.x, (int)_tilePosition.z] = true;
     }
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (!Application.isPlaying) return;
         float verticalOffset = 5f;
-        float radius = .3f;
+        float radius = 0.3f;
         for (int i = 0; i < _dungeonSize; i++)
         {
             for (int j = 0; j < _dungeonSize; j++)

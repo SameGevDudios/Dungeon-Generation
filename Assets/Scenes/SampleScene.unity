@@ -1816,12 +1816,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c0963796753b94aa2629a22db58555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dungeonSize: 11
+  _dungeonSize: 11111
   _tileScale: 2
   _tile:
   - {fileID: 9161732827678514422, guid: 62f44fb8b2f25b54bb5746f4d32f12d5, type: 3}
   - {fileID: 3487941028618962832, guid: 31b2c5a487c9fb34b9bad25cd03e466c, type: 3}
-  - {fileID: 2753574811346291751, guid: da4ef977917f14d43a6c4449306e89a6, type: 3}
   - {fileID: 5138490923233920014, guid: dc241e5d9def98c418fb81de126085d2, type: 3}
   - {fileID: 3129402082157062141, guid: 973d26d61aa80a447a284e6ebf491f31, type: 3}
   - {fileID: 6819481210636749645, guid: 66cbc5da2f96db74b81e0f3ecbc14815, type: 3}
@@ -1830,18 +1829,6 @@ MonoBehaviour:
   - {fileID: 561461291684954152, guid: 30297c28bacbb5b4187314766c41bd7f, type: 3}
   _endingTile: {fileID: 2753574811346291751, guid: da4ef977917f14d43a6c4449306e89a6, type: 3}
   _wall: {fileID: 7819491628206073012, guid: 84f9f86c45ce74a41ab420ca24b81728, type: 3}
-  _row0:
-  - {fileID: 1864730087}
-  - {fileID: 871721340}
-  - {fileID: 337527267}
-  _row1:
-  - {fileID: 311058490}
-  - {fileID: 469298835}
-  - {fileID: 2063312618}
-  _row2:
-  - {fileID: 2044721593}
-  - {fileID: 2127488688}
-  - {fileID: 873114899}
 --- !u!4 &1556794277
 Transform:
   m_ObjectHideFlags: 0

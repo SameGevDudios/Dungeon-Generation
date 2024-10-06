@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
@@ -15,17 +14,14 @@ public class Tile : MonoBehaviour
     }
     public int GetNextSpawn()
     {
+        int spawnIndex = -1;
         if(_spawnsAvalable > 0)
         {
-            int spawnIndex = Random.Range(0, 3);
-            while (!_hasSpawn[spawnIndex]) spawnIndex = Random.Range(0, 3);
+            spawnIndex = Random.Range(0, 3);
+            while (!_hasSpawn[spawnIndex] || spawnIndex == -1) spawnIndex = Random.Range(0, 3);
             _spawnsAvalable--;
             _hasSpawn[spawnIndex] = false;
-            return spawnIndex;
         }
-        else
-        {
-            return -1;
-        }
+        return spawnIndex;
     }
 }
