@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c0963796753b94aa2629a22db58555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dungeonSize: 11
+  _dungeonSize: 11111
   _tileScale: 2
   _seed: 707
   _tile:

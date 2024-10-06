@@ -5,6 +5,7 @@ public class DungeonGenerator : MonoBehaviour
 {
     [SerializeField] private int _dungeonSize, _tileScale;
     [SerializeField] private int _seed;
+    [SerializeField] private bool _useSeed;
     private bool[,] _tileArray;
 
     // This vector represents not a world position of a new tile,
@@ -16,7 +17,8 @@ public class DungeonGenerator : MonoBehaviour
     private Stack<GameObject> _tileQueue = new Stack<GameObject>();
     private void Start()
     {
-        Random.seed = _seed;
+        if (_useSeed)
+            Random.InitState(_seed);
         InitializeArray();
         SetStartPosition();
         SpawnRandomTile(Vector3.zero);
@@ -96,15 +98,19 @@ public class DungeonGenerator : MonoBehaviour
     }
     private void OnDrawGizmosSelected()
     {
-        if (!Application.isPlaying) return;
-        float verticalOffset = 5f;
-        float radius = 0.3f;
-        for (int i = 0; i < _dungeonSize; i++)
+        // Bigger the dungeon, laggier DrawGizmos gets,
+        // so it's required to shut down visualization in case of a large dungeon
+        if (Application.isPlaying && _dungeonSize < 100)
         {
-            for (int j = 0; j < _dungeonSize; j++)
+            float verticalOffset = 5f;
+            float radius = 0.3f;
+            for (int i = 0; i < _dungeonSize; i++)
             {
-                Gizmos.color = _tileArray[i, j] ? Color.green : Color.red;
-                Gizmos.DrawWireSphere(new Vector3(_tileScale * i, verticalOffset, _tileScale * j), radius);
+                for (int j = 0; j < _dungeonSize; j++)
+                {
+                    Gizmos.color = _tileArray[i, j] ? Color.green : Color.red;
+                    Gizmos.DrawWireSphere(new Vector3(_tileScale * i, verticalOffset, _tileScale * j), radius);
+                }
             }
         }
     }
