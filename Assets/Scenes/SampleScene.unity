@@ -1816,7 +1816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c0963796753b94aa2629a22db58555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dungeonSize: 11111
+  _dungeonSize: 478
   _tileScale: 2
   _tile:
   - {fileID: 9161732827678514422, guid: 62f44fb8b2f25b54bb5746f4d32f12d5, type: 3}
