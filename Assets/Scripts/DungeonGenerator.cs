@@ -43,7 +43,6 @@ public class DungeonGenerator : MonoBehaviour
     {
         while (_tileQueue.Count > 0) SpawnNextTile();
     }
-
     private void InitializeArray()
     {
         _tileArray = new bool[_dungeonSize, _dungeonSize];
