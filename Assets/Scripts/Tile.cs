@@ -8,13 +8,14 @@ public class Tile : MonoBehaviour
     [Tooltip("0 - east, 1 - north, 2 - west")]
     [SerializeField] private bool[] _hasSpawn = new bool[3];
     public int SpawnsAvalable { get; private set; }
-    private Vector3 _gridPosition;
+    public bool IsLarge;
+    private Grid _gridPosition;
     private void Awake()
     {
         for (int i = 0; i < 3; i++) if (_hasSpawn[i]) SpawnsAvalable++;
     }
-    public void SetGridPosition(Vector3 gridPosition) => _gridPosition = gridPosition;
-    public Vector3 GetGridPosition() => _gridPosition;
+    public void SetGridPosition(Grid gridPosition) => _gridPosition = gridPosition;
+    public Grid GetGridPosition() => _gridPosition;
     public int GetNextSpawn()
     {
         int spawnIndex = -1;
