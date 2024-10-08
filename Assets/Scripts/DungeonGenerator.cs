@@ -160,14 +160,14 @@ public class DungeonGenerator : MonoBehaviour
         // so it's required to shut down visualization in case of a large dungeon
         if (Application.isPlaying && _dungeonSize < 100)
         {
-            float verticalOffset = 5f;
+            float verticalOffset = transform.position.y + 3f;
             float radius = 0.3f;
             for (int i = 0; i < _dungeonSize; i++)
             {
                 for (int j = 0; j < _dungeonSize; j++)
                 {
                     Gizmos.color = _tileGrid[i, j] ? Color.green : Color.red;
-                    Gizmos.DrawWireSphere(new Vector3(_tileScale * i, verticalOffset, _tileScale * j), radius);
+                    Gizmos.DrawWireSphere(new Vector3(i * _tileScale, verticalOffset, j * _tileScale), radius);
                 }
             }
         }
