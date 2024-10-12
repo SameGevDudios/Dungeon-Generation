@@ -317,7 +317,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08a3f068893849b469041c569efa5dce, type: 3}
   m_Name: 
@@ -353,9 +353,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c0963796753b94aa2629a22db58555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dungeonSize: 10000
+  _dungeonSize: 10
   _tileScale: 2
-  _seed: 1
+  _seed: 123
   _useSeed: 0
   _tile:
   - {fileID: 9161732827678514422, guid: 62f44fb8b2f25b54bb5746f4d32f12d5, type: 3}
@@ -370,7 +370,7 @@ MonoBehaviour:
   - {fileID: 561461291684954152, guid: 30297c28bacbb5b4187314766c41bd7f, type: 3}
   - {fileID: 4639142004722641635, guid: 743179e25b831334787638e817d79325, type: 3}
   - {fileID: 2753574811346291751, guid: da4ef977917f14d43a6c4449306e89a6, type: 3}
-  _wall: {fileID: 7819491628206073012, guid: 84f9f86c45ce74a41ab420ca24b81728, type: 3}
+  _borderPlacement: {fileID: 0}
 --- !u!4 &1556794277
 Transform:
   m_ObjectHideFlags: 0

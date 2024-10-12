@@ -10,12 +10,15 @@ public class Tile : MonoBehaviour
     public int SpawnsAvalable { get; private set; }
     public bool IsLarge;
     private Grid _gridPosition;
+
+    [SerializeField] private GameObject[] _wall;
     private void Awake()
     {
         for (int i = 0; i < 3; i++) if (_hasSpawn[i]) SpawnsAvalable++;
     }
     public void SetGridPosition(Grid gridPosition) => _gridPosition = gridPosition;
     public Grid GetGridPosition() => _gridPosition;
+    public void SpawnFailed(int spawn) => _wall[spawn].SetActive(true);
     public int GetNextSpawn()
     {
         int spawnIndex = -1;
