@@ -7,28 +7,36 @@ public class Tile : MonoBehaviour
     // The spawn direction is counterclockwise starting from the east
     [Tooltip("0 - east, 1 - north, 2 - west")]
     [SerializeField] private bool[] _hasSpawn = new bool[3];
-    public int SpawnsAvalable { get; private set; }
-    public bool IsLarge;
     private Grid _gridPosition;
-
-    [SerializeField] private GameObject[] _wall;
+    [HideInInspector] public int SpawnsAvalable { get; private set; }
+    [SerializeField] private int _width, _length;
     private void Awake()
     {
-        for (int i = 0; i < 3; i++) if (_hasSpawn[i]) SpawnsAvalable++;
+        for (int i = 0; i < 3; i++) 
+            if (_hasSpawn[i]) 
+                SpawnsAvalable++;
     }
-    public void SetGridPosition(Grid gridPosition) => _gridPosition = gridPosition;
-    public Grid GetGridPosition() => _gridPosition;
-    public void SpawnFailed(int spawn) => _wall[spawn].SetActive(true);
+    public void SetGridPosition(Grid gridPosition) =>
+        _gridPosition = gridPosition;
+    public Grid GetGridPosition() =>
+        _gridPosition;
+    public int GetWidth() =>
+        _width;
+    public int GetLength() =>
+        _length;
     public int GetNextSpawn()
     {
         int spawnIndex = -1;
         if(SpawnsAvalable > 0)
         {
             spawnIndex = Random.Range(0, 3);
-            while (!_hasSpawn[spawnIndex] || spawnIndex == -1) spawnIndex = Random.Range(0, 3);
+            while (!_hasSpawn[spawnIndex] || spawnIndex == -1) 
+                spawnIndex = Random.Range(0, 3);
             SpawnsAvalable--;
             _hasSpawn[spawnIndex] = false;
         }
         return spawnIndex;
     }
+    public bool IsLarge() =>
+        _width + _length != 2;
 }

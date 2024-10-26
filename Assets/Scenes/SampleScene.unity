@@ -353,7 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c0963796753b94aa2629a22db58555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dungeonSize: 10
+  _dungeonSize: 15
   _tileScale: 2
   _seed: 123
   _useSeed: 0
@@ -370,7 +370,8 @@ MonoBehaviour:
   - {fileID: 561461291684954152, guid: 30297c28bacbb5b4187314766c41bd7f, type: 3}
   - {fileID: 4639142004722641635, guid: 743179e25b831334787638e817d79325, type: 3}
   - {fileID: 2753574811346291751, guid: da4ef977917f14d43a6c4449306e89a6, type: 3}
-  _borderPlacement: {fileID: 0}
+  _emptyTile: {fileID: 1484445089900255407, guid: 2e2eb4e53bb66ef448a28ab4c5f38991, type: 3}
+  _stepByStepSpawn: 0
 --- !u!4 &1556794277
 Transform:
   m_ObjectHideFlags: 0
